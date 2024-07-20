@@ -1,17 +1,42 @@
-import React from 'react';
-import { Routes, Route} from 'react-router-dom';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import SignUp from './pages/SignUp';
+import react from "react"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
+import Login from "./components/Form"
+import Home from "./pages/Home"
+import ProtectedRoute from "./components/ProtectedRoute"
+import Register from "./pages/Register"
+
+
+function Logout() {
+  localStorage.clear()
+  return <Navigate to="/login" />
+}
+
+function RegisterAndLogout() {
+  localStorage.clear()
+  return <Register />
+}
 
 function App() {
   return (
-    <Routes>
-        <Route exact path="/" element={<Login/>} />
-        <Route path="/SignUp" element={<SignUp/>} />
-        <Route path="/Home" element={<Home/>} />
-    </Routes>
-  );
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/login" element={<Login />} />
+        <Route path="/logout" element={<Logout />} />
+        <Route path="/register" element={<RegisterAndLogout />} />
+      </Routes>
+    </BrowserRouter>
+  )
 }
 
-export default App;
+export default App
+
+
+
